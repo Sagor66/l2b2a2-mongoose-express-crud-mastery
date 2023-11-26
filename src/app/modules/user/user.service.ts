@@ -17,20 +17,28 @@ const getUserByIdService = async (userId: number) => {
       'userId username fullName.firstName fullName.lastName age email isActive hobbies address.street address.city address.country'
     );
   } else {
-    throw new Error("User doesn't exists");
+    throw new Error('User not found');
   }
 };
 
 const updateUserByIdService = async (id: number, updateData: TUser) => {
-  return await User.findOneAndUpdate({ userId: id }, updateData, {
-    new: true,
-  }).select(
-    'userId username fullName.firstName fullName.lastName age email isActive hobbies address.street address.city address.country'
-  );
+  if (await User.isUserExists(id)) {
+    return await User.findOneAndUpdate({ userId: id }, updateData, {
+      new: true,
+    }).select(
+      'userId username fullName.firstName fullName.lastName age email isActive hobbies address.street address.city address.country'
+    );
+  } else {
+    throw new Error('User not found');
+  }
 };
 
 const deleteUserService = async (id: number) => {
-  return await User.updateOne({ id }, { isDeleted: true });
+  if (await User.isUserExists(id)) {
+    return await User.updateOne({ id }, { isDeleted: true });
+  } else {
+    throw new Error('User not found');
+  }
 };
 
 export const UserServices = {
