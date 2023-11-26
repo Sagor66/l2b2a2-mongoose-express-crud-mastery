@@ -9,10 +9,25 @@ const createUserController = async (req: Request, res: Response) => {
 
     const result = await UserServices.createUserService(zodParsedData);
 
+    let modifiedData;
+
+    if (result) {
+      modifiedData = {
+        userId: result.userId,
+        username: result.username,
+        fullName: result.fullName,
+        age: result.age,
+        email: result.email,
+        isActive: result.isActive,
+        hobbies: result.hobbies,
+        address: result.address,
+      };
+    }
+
     res.status(200).json({
       success: true,
       message: 'User created successfully',
-      data: result,
+      data: modifiedData,
     });
   } catch (error: any) {
     res.status(500).json({
@@ -23,13 +38,13 @@ const createUserController = async (req: Request, res: Response) => {
   }
 };
 
-const getAllUserController = async (res: Response) => {
+const getAllUserController = async (req: Request, res: Response) => {
   try {
     const result = await UserServices.getUserService();
 
     res.status(200).json({
       success: true,
-      message: 'User data retrieved successfully',
+      message: 'Users fetched successfully',
       data: result,
     });
   } catch (error: any) {
@@ -48,14 +63,17 @@ const getUserByIdController = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: 'User data retrieved successfully',
+      message: 'User fetched successfully',
       data: result,
     });
   } catch (error: any) {
     res.status(500).json({
       success: false,
       message: error.message || 'Something went wrong',
-      error: error,
+      error: {
+        code: '404',
+        description: error.message,
+      },
     });
   }
 };

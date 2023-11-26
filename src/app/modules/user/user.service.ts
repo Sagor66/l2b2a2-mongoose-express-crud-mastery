@@ -6,15 +6,27 @@ const createUserService = async (userData: TUser) => {
 };
 
 const getUserService = async () => {
-  return await User.find();
+  return await User.find().select(
+    'username fullName.firstName fullName.lastName age email address.street address.city address.country'
+  );
 };
 
 const getUserByIdService = async (userId: number) => {
-  return await User.findOne({ userId });
+  if (await User.isUserExists(userId)) {
+    return await User.findOne({ userId }).select(
+      'userId username fullName.firstName fullName.lastName age email isActive hobbies address.street address.city address.country'
+    );
+  } else {
+    throw new Error("User doesn't exists");
+  }
 };
 
-const updateUserByIdService = async (id: number, updateData: any) => {
-  return await User.updateOne({ id }, updateData);
+const updateUserByIdService = async (id: number, updateData: TUser) => {
+  return await User.findOneAndUpdate({ userId: id }, updateData, {
+    new: true,
+  }).select(
+    'userId username fullName.firstName fullName.lastName age email isActive hobbies address.street address.city address.country'
+  );
 };
 
 const deleteUserService = async (id: number) => {
