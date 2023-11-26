@@ -35,7 +35,7 @@ const updateUserByIdService = async (id: number, updateData: TUser) => {
 
 const deleteUserService = async (id: number) => {
   if (await User.isUserExists(id)) {
-    return await User.updateOne({ id }, { isDeleted: true });
+    return await User.findOneAndDelete({ userId: id });
   } else {
     throw new Error('User not found');
   }
