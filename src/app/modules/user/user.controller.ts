@@ -81,7 +81,7 @@ const getUserByIdController = async (req: Request, res: Response) => {
   }
 };
 
-const updateUserById = async (req: Request, res: Response) => {
+const updateUserByIdController = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
     const { userId } = req.params;
@@ -110,7 +110,7 @@ const updateUserById = async (req: Request, res: Response) => {
   }
 };
 
-const deleteUser = async (req: Request, res: Response) => {
+const deleteUserController = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
 
@@ -130,7 +130,7 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
-const updateOrder = async (req: Request, res: Response) => {
+const updateOrderController = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
     const orderData = req.body;
@@ -156,7 +156,7 @@ const updateOrder = async (req: Request, res: Response) => {
   }
 };
 
-const getOrders = async (req: Request, res: Response) => {
+const getOrdersController = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
 
@@ -176,7 +176,7 @@ const getOrders = async (req: Request, res: Response) => {
   }
 };
 
-const getTotalPrice = async (req: Request, res: Response) => {
+const getTotalPriceController = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
 
@@ -210,9 +210,9 @@ export const UserControllers = {
   createUserController,
   getAllUserController,
   getUserByIdController,
-  updateUserById,
-  deleteUser,
-  updateOrder,
-  getOrders,
-  getTotalPrice,
+  updateUserByIdController,
+  deleteUserController,
+  updateOrderController,
+  getOrdersController,
+  getTotalPriceController,
 };
