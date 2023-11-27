@@ -1,24 +1,24 @@
 import { z } from 'zod';
 
-const userNameValidationSchema = z.object({
+export const userNameValidationSchema = z.object({
   firstName: z.string().min(1),
   lastName: z.string().min(1),
 });
 
-const userAddressValidationSchema = z.object({
+export const userAddressValidationSchema = z.object({
   street: z.string(),
   city: z.string(),
   country: z.string(),
 });
 
-const userOrderValidationSchema = z.object({
+export const userOrderValidationSchema = z.object({
   productName: z.string().min(1),
   price: z.number(),
   quantity: z.number(),
 });
 
 // Define the main user schema
-const userValidationSchema = z.object({
+export const userValidationSchema = z.object({
   userId: z.number(),
   username: z.string().min(1),
   password: z.string().min(1),
@@ -30,5 +30,3 @@ const userValidationSchema = z.object({
   address: userAddressValidationSchema,
   orders: z.optional(z.array(userOrderValidationSchema)),
 });
-
-export default userValidationSchema;

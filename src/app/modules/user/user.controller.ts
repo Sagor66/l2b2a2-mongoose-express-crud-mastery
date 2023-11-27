@@ -1,6 +1,9 @@
 import { Request, Response } from 'express';
-import userValidationSchema from './user.validation';
 import { UserServices } from './user.service';
+import {
+  userOrderValidationSchema,
+  userValidationSchema,
+} from './user.validation';
 
 const createUserController = async (req: Request, res: Response) => {
   try {
@@ -127,10 +130,37 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+const updateOrder = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const orderData = req.body;
+
+    const zodParsedData = userOrderValidationSchema.parse(orderData);
+
+    const result = await UserServices.updateOrderService(
+      parseInt(userId),
+      zodParsedData
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'User deleted successfully',
+      data: result && null,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Something went wrong',
+      error: error,
+    });
+  }
+};
+
 export const UserControllers = {
   createUserController,
   getAllUserController,
   getUserByIdController,
   updateUserById,
   deleteUser,
+  updateOrder,
 };
