@@ -144,8 +144,56 @@ const updateOrder = async (req: Request, res: Response) => {
 
     res.status(200).json({
       success: true,
-      message: 'User deleted successfully',
+      message: 'Order created successfully',
       data: result && null,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Something went wrong',
+      error: error,
+    });
+  }
+};
+
+const getOrders = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+
+    const result = await UserServices.getOrdersService(parseInt(userId));
+
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message || 'Something went wrong',
+      error: error,
+    });
+  }
+};
+
+const getTotalPrice = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+
+    const orders = await UserServices.getOrdersService(parseInt(userId));
+    let totalPrice;
+
+    if (orders) {
+      totalPrice = orders?.orders?.reduce(
+        (prev: number, order: any) => prev + order.price,
+        0
+      );
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully',
+      data: totalPrice,
     });
   } catch (error: any) {
     res.status(500).json({
@@ -163,4 +211,6 @@ export const UserControllers = {
   updateUserById,
   deleteUser,
   updateOrder,
+  getOrders,
+  getTotalPrice,
 };

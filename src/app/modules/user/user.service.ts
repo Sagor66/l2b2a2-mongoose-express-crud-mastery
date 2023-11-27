@@ -53,6 +53,14 @@ const updateOrderService = async (id: number, orderData: TOrders) => {
   }
 };
 
+const getOrdersService = async (userId: number) => {
+  if (await User.isUserExists(userId)) {
+    return await User.findOne({ userId }).select('orders');
+  } else {
+    throw new Error('User not found');
+  }
+};
+
 export const UserServices = {
   createUserService,
   getUserService,
@@ -60,4 +68,5 @@ export const UserServices = {
   updateUserByIdService,
   deleteUserService,
   updateOrderService,
+  getOrdersService,
 };

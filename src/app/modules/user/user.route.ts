@@ -7,10 +7,12 @@ const router = express.Router();
 router.get('/', UserControllers.getAllUserController);
 router.post('/', UserControllers.createUserController);
 router.get('/:userId', UserControllers.getUserByIdController);
-router.post('/:userId', UserControllers.updateUserById);
+router.put('/:userId', UserControllers.updateUserById);
 router.delete('/:userId', UserControllers.deleteUser);
 
 // Order Routes
-router.put('/:userId', UserControllers.updateOrder);
+router.put('/:userId/orders', UserControllers.updateOrder);
+router.get('/:userId/orders', UserControllers.getOrders);
+router.get('/:userId/orders/total-price', UserControllers.getTotalPrice);
 
 export const UserRoutes = router;
